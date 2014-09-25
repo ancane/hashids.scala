@@ -12,13 +12,21 @@ class HashidsSpec extends SpecificationWithJUnit with Mockito {
         salt = "this is my salt",
         alphabet = "1"
       )) must throwA[IllegalArgumentException](
-        message = "alphabet must contain at least 16 unique characters")
+        message = "alphabet must contain at least 16 characters")
+    }
+
+    "require unique alphabet chars" in {
+      (new Hashids(
+        salt = "this is my salt",
+        alphabet = "1123467890abcdefghijklmnopqrstuvwxyz"
+      )) must throwA[IllegalArgumentException](
+        message = "check your alphabet for duplicates")
     }
 
     "deny spaces in alphabet" in {
       (new Hashids(
         salt = "this is my salt",
-        alphabet = "1234567890 1234567890"
+        alphabet = "1234567890 abcdefghijklmnopqrstuvwxyz"
       )) must throwA[IllegalArgumentException](
         message = "alphabet cannot contains spaces")
     }
