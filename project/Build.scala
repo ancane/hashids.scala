@@ -15,10 +15,14 @@ object ShellPrompt {
   }
 }
 
+object Deps {
+  val specs2 = "org.specs2" %% "specs2" % "2.3.12" % "test"
+}
+
 object Hashids extends Build {
 
   lazy val buildSettings = Seq(
-    organization := "com.github.ancane",
+    organization := "org.hashids",
     description  := "Hashids scala port",
     scalaVersion := "2.10.4",
     shellPrompt  := ShellPrompt.buildShellPrompt,
@@ -32,6 +36,10 @@ object Hashids extends Build {
     )
   )
 
+  import Deps._
   lazy val root = Project("hashids-scala", file("."))
     .settings(buildSettings: _*)
+    .settings(libraryDependencies ++= Seq(
+      specs2
+    ))
 }
