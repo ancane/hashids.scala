@@ -3,3 +3,16 @@
 
 # Packaging
 .cask
+
+# Emacs
+*~
+*#
+.#*
+TAGS
+.tern-port
+.dir-locals.el
+
+# sbt
+/project/boot/
+/project/plugins/project
+target/
