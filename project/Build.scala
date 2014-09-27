@@ -19,7 +19,7 @@ object Deps {
   val specs2 = "org.specs2" %% "specs2" % "2.3.12" % "test"
 }
 
-object Hashids extends Build {
+object ScalaHashids extends Build {
 
   lazy val buildSettings = Seq(
     organization := "org.hashids",
