@@ -50,7 +50,33 @@ class Hashids(
   }
 
   def encode(x: Long*): String = ???
-  def decode(x: String): List[Long] = ???
+
+  def decode(hash: String): List[Long] = hash match {
+    case "" => Nil
+    case x => _decode(x, effectiveAlphabet)
+  }
+
+  def decodeHex(hash: String): String =
+    decode(hash).map(x => x.toHexString.substring(1)).mkString
+
+  private def _decode(hash: String, alphabet: String): List[Long] = {
+    val hashArray = hash.split(s"[$guards]")
+    val i = if(hashArray.length == 3 || hashArray.length == 2) 1 else 0
+    val lottery = hashArray(i).charAt(0)
+    val hashBreakdown = hashArray(i).substring(1).split(s"[$seps]")
+
+    def doDecode(in: List[String], buff: String,
+      alpha: String, result: List[Long]): List[Long] = in match {
+      case Nil => result.reverse
+      case x :: tail =>
+        val newBuf = lottery + salt + alpha
+        val newAlpha = consistentShuffle(alpha, buff.substring(0, alpha.size))
+        doDecode(tail, lottery + this.salt + newAlpha, newAlpha, unhash(x, newAlpha) :: result)
+    }
+
+    doDecode(hashBreakdown.toList, lottery + salt + effectiveAlphabet, effectiveAlphabet, Nil)
+  }
+
 
   def consistentShuffle(alphabet: String, salt: String): String = {
     def doShuffle(i: Int, v: Int, p: Int, result: String): String = {
