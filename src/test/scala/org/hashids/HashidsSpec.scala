@@ -34,74 +34,106 @@ class HashidsSpec extends SpecificationWithJUnit with Mockito {
     "encode" in {
 
       "single number" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.encode(12345L) must_== "NkK9"
       }
 
       "several number at once" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.encode(683L, 94108L, 123L, 5L) must_== "aBMswoO2UB3Sj"
       }
 
       "with custom hash length" in {
-        val hashid = new Hashids("this is my salt", 8)
+        val hashid = Hashids("this is my salt", 8)
 
         hashid.encode(1L) must_== "gB0NV05e"
       }
 
       "provide randomness" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
 
         hashid.encode(5L, 5L, 5L, 5L) must_== "1Wc8cwcE"
       }
 
       "provide randomness for incrementing numbers" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.encode(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L) must_== "kRHnurhptKcjIDTWC3sx"
       }
 
       "max long" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.encode(Long.MaxValue) must_== "jvNx4BjM5KYjv"
       }
 
       "75527867232L" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.encode(75527867232L) must_== "3kK3nNOe"
+      }
+    }
+
+    "encodeHex" in {
+
+      "encodes hex string" in {
+        val hashids = Hashids("this is my salt")
+
+        hashids.encodeHex("FA")         must_== "lzY"
+        hashids.encodeHex("26dd")       must_== "MemE"
+        hashids.encodeHex("FF1A")       must_== "eBMrb"
+        hashids.encodeHex("12abC")      must_== "D9NPE"
+        hashids.encodeHex("185b0")      must_== "9OyNW"
+        hashids.encodeHex("17b8d")      must_== "MRWNE"
+        hashids.encodeHex("1d7f21dd38") must_== "4o6Z7KqxE"
+        hashids.encodeHex("20015111d")  must_== "ooweQVNB"
+      }
+
+      "throw if non-hex string passed" >> {
+        val hashids = Hashids("this is my salt")
+        hashids.encodeHex("XYZ123") must throwA[IllegalArgumentException](
+          message = "Not a HEX string")
       }
     }
 
     "decode" in {
 
       "single number" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.decode("NkK9") must_== List(12345L)
       }
 
       "several number at once" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.decode("aBMswoO2UB3Sj") must_== List(683L, 94108L, 123L, 5L)
       }
 
       "with custom hash length" in {
-        val hashid = new Hashids("this is my salt", 8)
+        val hashid = Hashids("this is my salt", 8)
         hashid.decode("gB0NV05e") must_== List(1L)
       }
 
       "provide randomness" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.decode("1Wc8cwcE") must_== List(5L, 5L, 5L, 5L)
       }
 
       "provide randomness for incrementing numbers" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.decode("kRHnurhptKcjIDTWC3sx") must_== List(
           1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L)
       }
 
       "75527867232L" in {
-        val hashid = new Hashids("this is my salt")
+        val hashid = Hashids("this is my salt")
         hashid.decode("3kK3nNOe") must_== List(75527867232L)
+      }
+    }
+
+    "decodeHex" >> {
+      val hashids = Hashids("this is my salt")
+
+      "decodes hex string" >> {
+        hashids.decodeHex("lzY")   must_== "FA"
+        hashids.decodeHex("eBMrb") must_== "FF1A"
+        hashids.decodeHex("D9NPE") must_== "12ABC"
       }
     }
 
