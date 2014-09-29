@@ -1,5 +1,7 @@
 package org.hashids
 
+import scala.annotation.tailrec
+
 class Hashids(
   salt: String = "",
   minHashLength: Int = 0,
@@ -54,8 +56,10 @@ class Hashids(
 
   def encodeHex(in: String): String = {
     require(in.matches("^[0-9a-fA-F]+$"), "Not a HEX string")
+
     val matcher = "[\\w\\W]{1,12}".r.pattern.matcher(in)
 
+    @tailrec
     def doSplit(result: List[Long]): List[Long] = {
       if (matcher.find()) doSplit(java.lang.Long.parseLong("1" + matcher.group, 16) :: result)
       else result
@@ -106,6 +110,7 @@ class Hashids(
 
     val halfLen = tmpAlpha.length / 2
 
+    @tailrec
     def respectMinHashLength(alpha: String, res: String): String = {
       if (res.length >= minHashLength) res
       else {
@@ -137,6 +142,7 @@ class Hashids(
     val lottery = hashArray(i).charAt(0)
     val hashBreakdown = hashArray(i).substring(1).split(s"[$seps]")
 
+    @tailrec
     def doDecode(in: List[String], buff: String,
       alpha: String, result: List[Long]): List[Long] = in match {
       case Nil => result.reverse
@@ -151,6 +157,7 @@ class Hashids(
 
 
   def consistentShuffle(alphabet: String, salt: String): String = {
+    @tailrec
     def doShuffle(i: Int, v: Int, p: Int, result: String): String = {
       if (i <= 0) {
         result
@@ -175,6 +182,7 @@ class Hashids(
   private def hash(input: Long, alphabet: String): String = {
     val alphaSize = alphabet.length.toLong
 
+    @tailrec
     def doHash(in: Long, hash: String): String = {
       if (in <= 0) hash
       else {
