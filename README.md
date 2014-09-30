@@ -15,8 +15,7 @@ A Scala port of [hashids.org](www.hashids.org) library to generate short hashes 
 The goal of the port
 ====================
 
-Besides the goals of the original library, this scala port is written without mutable state,
-with tailrec optimization.
+Besides the goals of the original library, this scala port is written without mutable state.
 
 ## Usage
 
