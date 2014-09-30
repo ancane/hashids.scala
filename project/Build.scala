@@ -2,6 +2,8 @@ import sbt._
 import Keys._
 import aether.Aether._
 import sbtrelease.ReleasePlugin._
+import xerial.sbt.Sonatype._
+import SonatypeKeys._
 
 object ShellPrompt {
   def currentBranch = Process(List("git", "rev-parse", "--abbrev-ref", "HEAD"))
@@ -22,7 +24,9 @@ object Deps {
 object ScalaHashids extends Build {
 
   lazy val buildSettings = Seq(
-    organization := "org.hashids",
+    organization := "org.github.ancane",
+    profileName  := "org.github.ancane",
+    version      := "0.1",
     description  := "Hashids scala port",
     scalaVersion := "2.10.4",
     shellPrompt  := ShellPrompt.buildShellPrompt,
@@ -33,12 +37,35 @@ object ScalaHashids extends Build {
       "-deprecation",
       "-feature",
       "-Xlog-reflective-calls"
-    )
+    ),
+    pomExtra := {
+      <url>(your project URL)</url>
+      <licenses>
+        <license>
+          <name>MIT</name>
+          <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+      </licenses>
+      <scm>
+        <connection>scm:git:github.com:ancane/hashids.scala</connection>
+        <developerConnection>scm:git:git@github.com:ancane/hashids.scala</developerConnection>
+        <url>github.com/ancane/hashids.scala</url>
+      </scm>
+      <developers>
+        <developer>
+          <id>ancane</id>
+          <email>igor.shimko@gmail.com</email>
+          <name>Igor Shymko</name>
+          <url>https://github.com/ancane</url>
+        </developer>
+      </developers>
+    }
   )
 
   import Deps._
   lazy val root = Project("hashids-scala", file("."))
     .settings(buildSettings: _*)
+    .settings(sonatypeSettings: _*)
     .settings(libraryDependencies ++= Seq(
       specs2
     ))

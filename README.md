@@ -1,7 +1,7 @@
 hashids.scala
 =============
 
-A Scala port of [hashids.org](www.hashids.org) library to generate short hashes from one or many numbers.
+A Scala port of [hashids.org](www.hashids.org) library to generate short hashes from one or many numbers. Ported from [hashids.java by fanweixiao](https://github.com/jiecao-fm/hashids-java)
 
 * Hashid is initialized with an `alphabet`, `salt` and a `minimum hash length`
 * It's possible to hash single and multiple long numbers
