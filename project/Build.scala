@@ -23,8 +23,8 @@ object ScalaHashids extends Build {
 
   lazy val buildSettings = Seq(
     organization := "org.github.ancane",
-    profileName  := "org.github.ancane",
-    version      := "1.0",
+    profileName  := "ancane",
+    version      := "1.0-SNAPSHOT",
     description  := "Hashids scala port",
     scalaVersion       := "2.11.0",
     crossScalaVersions := Seq("2.10.4", "2.11.0"),
@@ -36,7 +36,20 @@ object ScalaHashids extends Build {
       "-Xlog-reflective-calls"
     ),
     parallelExecution in Compile := true,
-    shellPrompt  := ShellPrompt.buildShellPrompt,
+    shellPrompt  := ShellPrompt.buildShellPrompt
+  )
+
+  lazy val publishSettings = Seq(
+    publishMavenStyle := true,
+    publishArtifact in Test := false,
+    pomIncludeRepository := { _ => false },
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if (isSnapshot.value)
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    },
     pomExtra := {
       <url>https://github.com/ancane/hashids.scala</url>
       <licenses>
@@ -65,6 +78,7 @@ object ScalaHashids extends Build {
   lazy val root = Project("hashids-scala", file("."))
     .settings(buildSettings: _*)
     .settings(sonatypeSettings: _*)
+    .settings(publishSettings: _*)
     .settings(libraryDependencies ++= Seq(
       specs2
     ))
