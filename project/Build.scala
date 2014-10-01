@@ -22,7 +22,7 @@ object Deps {
 object ScalaHashids extends Build {
 
   lazy val buildSettings = Seq(
-    organization := "org.github.ancane",
+    organization := "com.github.ancane",
     profileName  := "ancane",
     version      := "1.0",
     description  := "Hashids scala port",
