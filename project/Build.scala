@@ -1,7 +1,5 @@
 import sbt._
 import Keys._
-import aether.Aether._
-import sbtrelease.ReleasePlugin._
 import xerial.sbt.Sonatype._
 import SonatypeKeys._
 
@@ -28,16 +26,17 @@ object ScalaHashids extends Build {
     profileName  := "org.github.ancane",
     version      := "1.0",
     description  := "Hashids scala port",
-    scalaVersion := "2.10.4",
-    shellPrompt  := ShellPrompt.buildShellPrompt,
-    crossPaths   := false,
-    scalacOptions ++= Seq(
+    scalaVersion       := "2.11.0",
+    crossScalaVersions := Seq("2.10.4", "2.11.0"),
+    scalacOptions      := Seq(
       "-encoding", "UTF-8",
       "-unchecked",
       "-deprecation",
       "-feature",
       "-Xlog-reflective-calls"
     ),
+    parallelExecution in Compile := true,
+    shellPrompt  := ShellPrompt.buildShellPrompt,
     pomExtra := {
       <url>https://github.com/ancane/hashids.scala</url>
       <licenses>
