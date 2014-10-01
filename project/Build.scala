@@ -24,7 +24,7 @@ object ScalaHashids extends Build {
   lazy val buildSettings = Seq(
     organization := "org.github.ancane",
     profileName  := "ancane",
-    version      := "1.0-SNAPSHOT",
+    version      := "1.0",
     description  := "Hashids scala port",
     scalaVersion       := "2.11.0",
     crossScalaVersions := Seq("2.10.4", "2.11.0"),
@@ -61,7 +61,7 @@ object ScalaHashids extends Build {
       <scm>
         <connection>scm:git:github.com:ancane/hashids.scala</connection>
         <developerConnection>scm:git:git@github.com:ancane/hashids.scala</developerConnection>
-        <url>github.com/ancane/hashids.scala</url>
+        <url>https://github.com/ancane/hashids.scala</url>
       </scm>
       <developers>
         <developer>
