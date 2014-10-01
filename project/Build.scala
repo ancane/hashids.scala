@@ -26,7 +26,7 @@ object ScalaHashids extends Build {
   lazy val buildSettings = Seq(
     organization := "org.github.ancane",
     profileName  := "org.github.ancane",
-    version      := "0.1",
+    version      := "1.0",
     description  := "Hashids scala port",
     scalaVersion := "2.10.4",
     shellPrompt  := ShellPrompt.buildShellPrompt,
@@ -39,7 +39,7 @@ object ScalaHashids extends Build {
       "-Xlog-reflective-calls"
     ),
     pomExtra := {
-      <url>(your project URL)</url>
+      <url>https://github.com/ancane/hashids.scala</url>
       <licenses>
         <license>
           <name>MIT</name>
