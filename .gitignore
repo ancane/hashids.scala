@@ -16,3 +16,4 @@ TAGS
 /project/boot/
 /project/plugins/project
 target/
+run.sh
