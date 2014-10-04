@@ -205,6 +205,16 @@ class Hashids(
 
 object Hashids {
 
+  implicit class HashidsLongOps(x: Long) {
+    def hashid(implicit hashids: Hashids): String = hashids.encode(x)
+  }
+
+  implicit class HashidsStringOps(x: String) {
+    def unhashid(implicit hashids: Hashids)   : Seq[Long] = hashids.decode(x)
+    def hashidHex(implicit hashids: Hashids)  : String = hashids.encodeHex(x)
+    def unhashidHex(implicit hashids: Hashids): String = hashids.decodeHex(x)
+  }
+
   def apply(salt: String) =
     new Hashids(salt)
 

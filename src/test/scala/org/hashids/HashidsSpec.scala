@@ -69,6 +69,12 @@ class HashidsSpec extends SpecificationWithJUnit with Mockito {
         val hashid = Hashids("this is my salt")
         hashid.encode(75527867232L) must_== "3kK3nNOe"
       }
+
+      "implicitly" in {
+        import Hashids._
+        implicit val hahids = Hashids("this is my salt")
+        75527867232L.hashid must_== "3kK3nNOe"
+      }
     }
 
     "encodeHex" in {
@@ -90,6 +96,12 @@ class HashidsSpec extends SpecificationWithJUnit with Mockito {
         val hashids = Hashids("this is my salt")
         hashids.encodeHex("XYZ123") must throwA[IllegalArgumentException](
           message = "Not a HEX string")
+      }
+
+      "implicitly" in {
+        import Hashids._
+        implicit val hahids = Hashids("this is my salt")
+        "FA".hashidHex must_== "lzY"
       }
     }
 
@@ -125,16 +137,29 @@ class HashidsSpec extends SpecificationWithJUnit with Mockito {
         val hashid = Hashids("this is my salt")
         hashid.decode("3kK3nNOe") must_== List(75527867232L)
       }
+
+      "implicitly" in {
+        import Hashids._
+        implicit val hahids = Hashids("this is my salt")
+        "3kK3nNOe".unhashid must_== List(75527867232L)
+      }
     }
 
     "decodeHex" >> {
-      val hashids = Hashids("this is my salt")
 
-      "decodes hex string" >> {
+      "single string" >> {
+        val hashids = Hashids("this is my salt")
         hashids.decodeHex("lzY")   must_== "FA"
         hashids.decodeHex("eBMrb") must_== "FF1A"
         hashids.decodeHex("D9NPE") must_== "12ABC"
       }
+
+      "implicitly" in {
+        import Hashids._
+        implicit val hahids = Hashids("this is my salt")
+        "lzY".unhashidHex must_== "FA"
+      }
+
     }
 
   }
