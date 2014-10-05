@@ -138,6 +138,11 @@ class HashidsSpec extends SpecificationWithJUnit with Mockito {
         hashid.decode("3kK3nNOe") must_== List(75527867232L)
       }
 
+      "Max long" >> {
+        val hashids = Hashids("this is my salt")
+        hashids.decode("jvNx4BjM5KYjv") must_== List(Long.MaxValue)
+      }
+
       "implicitly" in {
         import Hashids._
         implicit val hahids = Hashids("this is my salt")

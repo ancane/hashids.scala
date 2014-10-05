@@ -114,8 +114,8 @@ class Hashids(
     def respectMinHashLength(alpha: String, res: String): String = {
       if (res.length >= minHashLength) res
       else {
-        val newAlpha = consistentShuffle(alpha, alpha);
-        val tmpRes = newAlpha.substring(halfLen) + res + newAlpha.substring(0, halfLen);
+        val newAlpha = consistentShuffle(alpha, alpha)
+        val tmpRes = newAlpha.substring(halfLen) + res + newAlpha.substring(0, halfLen)
         val excess = tmpRes.length - minHashLength
         val newRes = if(excess > 0) {
           val startPos = excess / 2
@@ -154,7 +154,6 @@ class Hashids(
 
     doDecode(hashBreakdown.toList, lottery + salt + effectiveAlphabet, effectiveAlphabet, Nil)
   }
-
 
   def consistentShuffle(alphabet: String, salt: String): String = {
     @tailrec
@@ -196,9 +195,9 @@ class Hashids(
   }
 
   private def unhash(input: String, alphabet: String): Long =
-    input.foldLeft[Long](0L){case (acc, in) =>
-      acc + alphabet.indexOf(in).toLong *
-      Math.pow(alphabet.length, input.length - 1 - input.indexOf(in)).toLong
+    input.zipWithIndex.foldLeft[Long](0L){case (acc, (in, i)) =>
+      acc + (alphabet.indexOf(in) *
+        Math.pow(alphabet.length, input.length - i - 1)).toLong
     }
 
 }
