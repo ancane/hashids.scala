@@ -100,7 +100,7 @@ class Hashids(
       val provResult = guard + tmpResult
 
       if(provResult.length < minHashLength) {
-        val guardIndex = numberHash + (provResult.codePointAt(2) % guards.length)
+        val guardIndex = (numberHash + provResult.codePointAt(2)) % guards.length
         val guard = guards.charAt(guardIndex)
         provResult + guard
       } else {
@@ -191,7 +191,7 @@ class Hashids(
       }
     }
 
-    doHash(input, "")
+    doHash(input / alphaSize, alphabet.charAt((input % alphaSize).toInt).toString)
   }
 
   private def unhash(input: String, alphabet: String): Long =
