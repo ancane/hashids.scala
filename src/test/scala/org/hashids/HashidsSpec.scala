@@ -174,9 +174,14 @@ class HashidsSpec extends SpecificationWithJUnit with Mockito {
         implicit val hahids = Hashids("this is my salt")
         "lzY".unhashidHex must_== "FA"
       }
-
     }
 
+    "reject decode with different salt" >> {
+      val hashid = Hashids("this is my salt")
+      val hash = hashid.encode(10L)
+
+      (Hashids("different salt").decode(hash)) must throwA[IllegalStateException]
+    }
   }
 
 }
