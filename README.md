@@ -22,11 +22,11 @@ Besides the goals of the original library, this scala port is written without mu
 Cross-Built for Scala 2.10 and 2.11
 
 ```scala
-libraryDependencies += "com.github.ancane" %% "hashids-scala" % "1.0"
+libraryDependencies += "com.github.ancane" %% "hashids-scala" % "1.1"
 ```
 
 ```scala
-import org.hashids._
+import org.hashids.Hashids, Hashids._
 ```
 
 #### Encode(hash)
