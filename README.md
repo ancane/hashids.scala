@@ -16,13 +16,20 @@ The goal of the port
 ====================
 
 Besides the goals of the original library, this scala port is written without mutable state.
+Also you get clear exceptions in following cases:
+
+* `IllegalArgumentException` when alphabet, you provided, contains duplicates
+* `IllegalArgumentException` if alphabet contains spaces
+* `IllegalArgumentException` if alphabet is less then 16 chars long
+* `IllegalArgumentException` when calling `encodeHex` with non-HEX string
+* `IllegalStateException` when calling `decode` with hash, produced with different salt
 
 ## Usage
 
 Cross-Built for Scala 2.10 and 2.11
 
 ```scala
-libraryDependencies += "com.github.ancane" %% "hashids-scala" % "1.1"
+libraryDependencies += "com.github.ancane" %% "hashids-scala" % "1.2"
 ```
 
 ```scala
