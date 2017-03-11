@@ -29,7 +29,7 @@ Also you get clear exceptions in following cases:
 Cross-Built for Scala 2.10, 2.11 and 2.12
 
 ```scala
-libraryDependencies += "com.github.ancane" %% "hashids-scala" % "1.2"
+libraryDependencies += "com.github.ancane" %% "hashids-scala" % "1.3"
 ```
 
 ```scala
