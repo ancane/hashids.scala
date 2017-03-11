@@ -25,8 +25,8 @@ object ScalaHashids extends Build {
 
   lazy val buildSettings = Seq(
     organization := "com.github.ancane",
-    profileName  := "ancane",
-    version      := "1.2",
+    sonatypeProfileName := "ancane",
+    version      := "1.3",
     description  := "Hashids scala port",
     scalaVersion       := "2.11.0",
     crossScalaVersions := Seq("2.10.5", "2.11.8", "2.12.1"),
