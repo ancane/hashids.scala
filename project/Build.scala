@@ -16,7 +16,9 @@ object ShellPrompt {
 }
 
 object Deps {
-  val specs2 = "org.specs2" %% "specs2" % "2.3.12" % "test"
+  val specs2 = Seq("org.specs2" %% "specs2-core" % "3.8.9" % "test",
+                   "org.specs2" %% "specs2-junit" % "3.8.9" % "test",
+                   "org.specs2" %% "specs2-mock" % "3.8.9" % "test")
 }
 
 object ScalaHashids extends Build {
@@ -27,7 +29,7 @@ object ScalaHashids extends Build {
     version      := "1.2",
     description  := "Hashids scala port",
     scalaVersion       := "2.11.0",
-    crossScalaVersions := Seq("2.10.4", "2.11.0"),
+    crossScalaVersions := Seq("2.10.5", "2.11.8", "2.12.1"),
     scalacOptions      := Seq(
       "-encoding", "UTF-8",
       "-unchecked",
@@ -79,7 +81,5 @@ object ScalaHashids extends Build {
     .settings(buildSettings: _*)
     .settings(sonatypeSettings: _*)
     .settings(publishSettings: _*)
-    .settings(libraryDependencies ++= Seq(
-      specs2
-    ))
+    .settings(libraryDependencies ++= specs2)
 }
