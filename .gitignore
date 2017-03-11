@@ -17,3 +17,4 @@ TAGS
 /project/plugins/project
 target/
 run.sh
+sbt-launch.jar
