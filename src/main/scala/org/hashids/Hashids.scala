@@ -8,7 +8,7 @@ class Hashids(
   alphabet: String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 ) {
 
-  require(alphabet.length == alphabet.toSeq.distinct.unwrap.length , "check your alphabet for duplicates")
+  require(alphabet.length == alphabet.toSet.size , "check your alphabet for duplicates")
   require(alphabet.length >= 16, "alphabet must contain at least 16 characters")
   require(alphabet.indexOf(" ") < 0, "alphabet cannot contains spaces")
 
