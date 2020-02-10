@@ -8,7 +8,7 @@ class Hashids(
   alphabet: String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 ) {
 
-  require(alphabet.length == alphabet.distinct.length , "check your alphabet for duplicates")
+  require(alphabet.length == alphabet.toSeq.distinct.unwrap.length , "check your alphabet for duplicates")
   require(alphabet.length >= 16, "alphabet must contain at least 16 characters")
   require(alphabet.indexOf(" ") < 0, "alphabet cannot contains spaces")
 
@@ -87,7 +87,7 @@ class Hashids(
           if (i + 1 < numbers.size) {
             val num = x % (last.codePointAt(0) + i)
             val sepsIndex = (num % seps.length).toInt
-            (newResult + seps.charAt((num % seps.length).toInt), newAlpha)
+            (newResult + seps.charAt(sepsIndex), newAlpha)
           } else {
             (newResult, newAlpha)
           }
@@ -97,7 +97,7 @@ class Hashids(
       val guardIndex = (numberHash + tmpResult.codePointAt(0)) % guards.length
       val guard = guards.charAt(guardIndex)
 
-      val provResult = guard + tmpResult
+      val provResult = s"$guard$tmpResult"
 
       if(provResult.length < minHashLength) {
         val guardIndex = (numberHash + provResult.codePointAt(2)) % guards.length
@@ -150,12 +150,12 @@ class Hashids(
       alpha: String, result: List[Long]): List[Long] = in match {
       case Nil => result.reverse
       case x :: tail =>
-        val newBuf = lottery + salt + alpha
         val newAlpha = consistentShuffle(alpha, buff.substring(0, alpha.length))
-        doDecode(tail, lottery + this.salt + newAlpha, newAlpha, unhash(x, newAlpha) :: result)
+        val newBuf = s"$lottery$salt$newAlpha"
+        doDecode(tail, newBuf, newAlpha, unhash(x, newAlpha) :: result)
     }
 
-    doDecode(hashBreakdown.toList, lottery + salt + effectiveAlphabet, effectiveAlphabet, Nil)
+    doDecode(hashBreakdown.toList, s"$lottery$salt$effectiveAlphabet", effectiveAlphabet, Nil)
   }
 
   def consistentShuffle(alphabet: String, salt: String): String = {
@@ -189,8 +189,8 @@ class Hashids(
       if (in <= 0) hash
       else {
         val newIn = in / alphaSize
-        val newHash = alphabet.charAt((in % alphaSize).toInt) + hash
-        doHash(newIn, newHash)
+        val newChar = alphabet.charAt((in % alphaSize).toInt)
+        doHash(newIn, s"$newChar$hash")
       }
     }
 

@@ -18,3 +18,5 @@ TAGS
 target/
 run.sh
 sbt-launch.jar
+
+.idea/
